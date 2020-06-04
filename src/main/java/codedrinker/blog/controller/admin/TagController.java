@@ -1,7 +1,7 @@
 package codedrinker.blog.controller.admin;
 
-import codedrinker.blog.po.Type;
-import codedrinker.blog.service.TypeService;
+import codedrinker.blog.po.Tag;
+import codedrinker.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,52 +16,51 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin")
-public class TypeController {
+public class TagController {
 
     @Autowired
-    private TypeService typeService;
+    private TagService tagService;
 
-    @GetMapping("/types")
+    @GetMapping("/tags")
     public String types(@PageableDefault(size = 10,sort = {"id"},direction = Sort.Direction.DESC)
                                     Pageable pageable, Model model){
-        model.addAttribute("page",typeService.listType(pageable));
-        return "admin/types";
+        model.addAttribute("page",tagService.listTag(pageable));
+        return "admin/tags";
     }
 
-    @GetMapping("/types/input")
+    @GetMapping("/tags/input")
     public String input(){
-        return "admin/types-input";
+        return "admin/tags-input";
     }
 
-    @GetMapping("/types/{id}/input")
+    @GetMapping("/tags/{id}/input")
     public String editInput(@PathVariable("id") Long id, Model model){
-        Type type = typeService.getType(id);
-        model.addAttribute("type",type);
-        return "admin/types-input";
-
+        Tag tag = tagService.getTag(id);
+        model.addAttribute("tag",tag);
+        return "admin/tags-input";
     }
 
-    @PostMapping("/types")
-    public String post(Type type, RedirectAttributes attributes){
-        Type dbType = typeService.getTypeByName(type.getName());
-        if(dbType != null){
-            attributes.addFlashAttribute("message","添加的分类已存在！");
-            return "redirect:/admin/types/input";
+    @PostMapping("/tags")
+    public String post(Tag tag, RedirectAttributes attributes){
+        Tag dbTag = tagService.getTagByName(tag.getName());
+        if(dbTag != null){
+            attributes.addFlashAttribute("message","添加的标签已存在！");
+            return "redirect:/admin/tags/input";
         }
-        Type t = typeService.saveType(type);
+        Tag t = tagService.saveTag(tag);
         if(t==null){
             attributes.addFlashAttribute("message","抱歉，操作失败！");
         }else{
             attributes.addFlashAttribute("message","恭喜，操作成功！");
         }
-        return "redirect:/admin/types";
+        return "redirect:/admin/tags";
     }
 
 
-    @GetMapping("/types/{id}/delete")
+    @GetMapping("/tags/{id}/delete")
     public String delete(@PathVariable Long id,RedirectAttributes attributes){
-        typeService.deleteType(id);
+        tagService.deleteTag(id);
         attributes.addFlashAttribute("message","恭喜，操作成功！");
-        return "redirect:/admin/types";
+        return "redirect:/admin/tags";
     }
 }

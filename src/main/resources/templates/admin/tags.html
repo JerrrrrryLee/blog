@@ -3,17 +3,17 @@
 <head th:replace="admin/_fragments::head(~{::title})">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>分类管理</title>
+    <title>标签管理</title>
 </head>
 <body>
     <!--导航-->
-    <div th:replace="admin/_fragments::topnav(2)"></div>
+    <div th:replace="admin/_fragments::topnav(3)"></div>
     <!--二级导航-->
     <div class="ui attached pointing menu">
         <div class="ui container">
             <div class="right menu">
-                <a href="#" th:href="@{/admin/types/input}" class="item">新增</a>
-                <a href="#" th:href="@{/admin/types}" class="teal active item">列表</a>
+                <a href="#" th:href="@{/admin/tags/input}" class="item">新增</a>
+                <a href="#" th:href="@{/admin/tags}" class="teal active item">列表</a>
             </div>
         </div>
     </div>
@@ -35,12 +35,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="type,iterStat:${page.content}">
+                    <tr th:each="tag,iterStat:${page.content}">
                         <td th:text="${iterStat.count}">1</td>
-                        <td th:text="${type.name}">类别一</td>
+                        <td th:text="${tag.name}">类别一</td>
                         <td>
-                            <a href="" th:href="@{/admin/types/{id}/input(id=${type.id})}" class="ui mini teal basic button">编辑</a>
-                            <a href="" th:href="@{/admin/types/{id}/delete(id=${type.id})}" class="ui mini red basic button">删除</a>
+                            <a href="" th:href="@{/admin/tags/{id}/input(id=${tag.id})}" class="ui mini teal basic button">编辑</a>
+                            <a href="" th:href="@{/admin/tags/{id}/delete(id=${tag.id})}" class="ui mini red basic button">删除</a>
                         </td>
                     </tr>
                 </tbody>
@@ -48,10 +48,10 @@
                 <tr>
                     <th colspan="6" >
                         <div class="ui mini pagination menu" th:if="${page.totalPages}>1">
-                            <a href="" th:href="@{/admin/types(page=${page.number}-1)}" class="item" th:unless="${page.first}">上一页</a>
-                            <a href="" th:href="@{/admin/types(page=${page.number}+1)}" class="item" th:unless="${page.last}">下一页</a>
+                            <a href="" th:href="@{/admin/tags(page=${page.number}-1)}" class="item" th:unless="${page.first}">上一页</a>
+                            <a href="" th:href="@{/admin/tags(page=${page.number}+1)}" class="item" th:unless="${page.last}">下一页</a>
                         </div>
-                        <a href="#" th:href="@{/admin/types/input}" class="ui mini right floated teal basic button">新增</a>
+                        <a href="#" th:href="@{/admin/tags/input}" class="ui mini right floated teal basic button">新增</a>
                     </th>
                 </tr>
                 </tfoot>
@@ -76,6 +76,8 @@
         $('.ui.dropdown').dropdown({
             on : 'hover'
         });
+
+
 
         //消息提示关闭初始化
         $('.message .close')

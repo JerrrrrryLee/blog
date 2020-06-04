@@ -13,7 +13,6 @@ public class Type {
     @Id
     @GeneratedValue
     private Long id;
-
     private String name;
 
     @OneToMany(mappedBy = "type")

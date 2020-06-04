@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class TypeServiceImpl implements TypeService {
 
@@ -58,5 +60,10 @@ public class TypeServiceImpl implements TypeService {
     public Type getTypeByName(String name) {
 
         return typeRepository.findByName(name);
+    }
+
+    @Override
+    public List<Type> listType() {
+        return typeRepository.findAll();
     }
 }
