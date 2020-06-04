@@ -2,7 +2,6 @@ package codedrinker.blog.controller.admin;
 
 
 import codedrinker.blog.po.Blog;
-import codedrinker.blog.po.Type;
 import codedrinker.blog.po.User;
 import codedrinker.blog.service.BlogService;
 import codedrinker.blog.service.TagService;
@@ -39,7 +38,7 @@ public class BlogController {
     private TagService tagService;
 
     @GetMapping("/blogs")
-    public String blogs(@PageableDefault(size = 2,sort = {"updateTime"},direction = Sort.Direction.DESC)
+    public String blogs(@PageableDefault(size = 10,sort = {"updateTime"},direction = Sort.Direction.DESC)
                                     Pageable pageable, BlogQuery blogQuery, Model model){
         Page<Blog> blogs = blogService.listBlog(pageable,blogQuery);
         model.addAttribute("page",blogs);
@@ -48,7 +47,7 @@ public class BlogController {
     }
 
     @PostMapping("/blogs/search")
-    public String search(@PageableDefault(size = 2,sort = {"updateTime"},direction = Sort.Direction.DESC)
+    public String search(@PageableDefault(size = 10,sort = {"updateTime"},direction = Sort.Direction.DESC)
                                 Pageable pageable, BlogQuery blogQuery, Model model){
         Page<Blog> blogs = blogService.listBlog(pageable,blogQuery);
         model.addAttribute("page",blogs);
@@ -80,7 +79,13 @@ public class BlogController {
         blog.setUser((User)session.getAttribute("user"));
         blog.setType(typeService.getType(blog.getType().getId()));
         blog.setTags(tagService.listTag(blog.getTagIds()));
-        Blog b = blogService.saveBlog(blog);
+        Blog b;
+        if(blog.getId() == null){
+            b = blogService.saveBlog(blog);
+        }else{
+            b=blogService.updateBlog(blog.getId(),blog);
+        }
+
         if(b == null){
             attributes.addFlashAttribute("message","抱歉，操作失败！");
         }else{

@@ -80,6 +80,9 @@
                         <input type="text" name="firstPicture" placeholder="首图引用地址" th:value="${blog.firstPicture}">
                     </div>
                 </div>
+                <div class="required field">
+                    <textarea name="description" th:text="${blog.description}" placeholder="博客描述..." maxlength="200"></textarea>
+                </div>
                 <div class="inline fields">
                     <div class="field">
                         <div class="ui checkbox">

@@ -16,30 +16,30 @@
             <div class="ui top attached segment">
                 <div class="ui horizontal link list">
                     <div class="item">
-                        <img src="https://picsum.photos/seed/picsum/100/100" alt="" class="ui avatar image">
-                        <div class="content"><a href="#" class="header">code-drinker</a></div>
+                        <img src="https://picsum.photos/seed/picsum/100/100" th:src="${blog.user.avatar}" alt="" class="ui avatar image">
+                        <div class="content"><a href="#" class="header" th:text="${blog.user.nickname}">code-drinker</a></div>
                     </div>
                     <div class="item">
-                        <i class="calendar icon"></i> 2017-10-01
+                        <i class="calendar icon"></i><span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}"></span>
                     </div>
                     <div class="item">
-                        <i class="eye icon"></i> 2345
+                        <i class="eye icon"></i><span th:text="${blog.views}"></span>
                     </div>
                 </div>
             </div>
             <!--图片-->
             <div class="ui attached segment">
-                <img src="https://picsum.photos/seed/picsum/800/450" alt="" class="ui fluid rounded image ">
+                <img src="https://picsum.photos/seed/picsum/800/450" alt="" th:src="${blog.firstPicture}" class="ui fluid rounded image ">
             </div>
             <!--内容-->
             <!--里面的所有h标签都必须要有id-->
             <div class="ui attached padded segment">
                 <div class="ui right aligned basic segment">
-                    <div class="ui orange basic label">原创</div>
+                    <div class="ui orange basic label" th:text="${blog.flag}">原创</div>
                 </div>
-                <h2 class="ui center aligned header">标题</h2>
+                <h2 class="ui center aligned header" th:text="${blog.title}">标题</h2>
                 <br>
-                <div id="content" class=" typo typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-large">
+                <div id="content" class=" typo typo-selection js-toc-content m-padded-lr-responsive m-padded-tb-large" th:utext="${blog.content}">
                     <h2 id="section1">111</h2>
                     <h3 id="section2">222</h3>
                     <h3 id="section3">333</h3>
@@ -51,7 +51,7 @@
                 </div>
                 <!--标签-->
                 <div class="m-padded-lr-responsive m-padded-tb-large">
-                    <div class="ui basic teal label">方法论</div>
+                    <div class="ui basic teal label" th:each="tag:${blog.tags}" th:text="${tag.name}">方法论</div>
                 </div>
                 <!--大赏-->
                 <div class="ui center aligned basic segment">
@@ -61,11 +61,11 @@
                     <div class="ui orange basic label">
                         <div class="ui images" style="font-size: inherit !important;">
                             <div class="image" >
-                                <img src="/images/wechat.jpg" alt="" class="ui rounded bordered image" style="width:120px">
+                                <img src="/images/wechat.jpg" th:src="@{/images/wechat.jpg}" alt="" class="ui rounded bordered image" style="width:120px">
                                 <div>支付宝支付</div>
                             </div>
                             <div class="image">
-                                <img src="/images/wechat.jpg" alt="" class="ui rounded bordered image" style="width:120px">
+                                <img src="/images/wechat.jpg" th:src="@{/images/wechat.jpg}" alt="" class="ui rounded bordered image" style="width:120px">
                                 <div>微信支付</div>
                             </div>
                         </div>
@@ -77,14 +77,14 @@
                 <div class="ui middle aligned grid">
                     <div class="eleven wide column">
                         <ui class="list">
-                            <li>作者：<span>JR</span><a href="#"  target="_blank">（联系作者）</a></li>
-                            <li>发表时间：<span>2017-10-02 09:08</span></li>
+                            <li>作者：<span th:text="${blog.user.nickname}">JR</span><a href="#" th:href="@{/about}" target="_blank">（联系作者）</a></li>
+                            <li>发表时间：<span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd HH:mm')}">2017-10-02 09:08</span></li>
                             <li>版权声明：自由转载-非商用-非衍生-保持署名（创意共享3.0许可证）</li>
                             <li>公众号转载：请在文末添加作者公众号二维码</li>
                         </ui>
                     </div>
                     <div class="five wide column">
-                        <img src="/images/wechat.jpg"  alt="" class="ui right floated rounded bordered image" style="width: 110px">
+                        <img src="/images/wechat.jpg" th:src="@{/images/wechat.jpg}" alt="" class="ui right floated rounded bordered image" style="width: 110px">
                     </div>
                 </div>
 
@@ -214,7 +214,8 @@
 
 
     <th:block th:replace="_fragments::script"></th:block>
-    <script>
+
+    <script th:inline="javascript">
         $('.menu.toggle').click(function () {
             $('.m-item').toggleClass('m-mobile-hide');
         });
@@ -243,9 +244,13 @@
             popup : $('.wechat-qr'),
             position: 'left center'
         });
+        //此处要修改为部署的服务器地址
+        var serurl = "localhost:8080";
+
+        var url = /*[[@{/blog/{id}(id=${blog.id})}]]*/"";
 
         var qrcode = new QRCode("qrcode", {
-            text: "https://www.bilibili.com/",
+            text: serurl + url,
             width: 110,
             height: 110,
             colorDark : "#000000",
