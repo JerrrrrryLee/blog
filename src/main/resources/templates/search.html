@@ -28,7 +28,7 @@
             <!--content-->
             <div class="ui top attached teal segment">
                 <!--一篇博客-->
-                <div class="ui padded vertical segment m-padded-tb-large" th:each="blog:${page.content}">
+                <div class="ui padded vertical segment m-padded-tb-large m-mobile-lr-clear" th:each="blog:${page.content}">
                     <div class="ui middle aligned mobile reversed stackable grid">
                         <div class="eleven wide column">
                             <h3 class="ui header"><a href="" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="m-black" th:text="${blog.title}">你真的理解什么是财富自由吗？</a></h3>

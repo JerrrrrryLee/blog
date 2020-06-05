@@ -72,6 +72,10 @@ body{
     margin-bottom: 0.5em !important;
 }
 
+.margin-left-large{
+    margin-left: 2em !important;
+}
+
 
 .m-margin-tb-tiny{
     margin-top: 0.3em !important;
@@ -148,6 +152,10 @@ body{
 /*color*/
 .m-black{
     color: #333 !important;
+}
+
+.m-teal{
+    color: #00B5AD; !important;
 }
 
 
