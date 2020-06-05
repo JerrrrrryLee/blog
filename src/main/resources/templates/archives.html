@@ -21,21 +21,23 @@
                         <h3 class="ui teal header">归档</h3>
                     </div>
                     <div class="right aligned column">
-                        共 <h2 class="ui orange header m-inline-block m-text-thin"> 14 </h2> 篇博客
+                        共 <h2 class="ui orange header m-inline-block m-text-thin" th:text="${totalBlog}"> 14 </h2> 篇博客
                     </div>
                 </div>
             </div>
             <!--年份列表-->
-            <h3 class="ui center aligned header"></h3>
-            <div class="ui fluid vertical menu">
-                <a href="" target="_blank" class="item">
-                    <span>
-                        <i class="mini teal cricle icon"></i>文章一
-                        <div class="ui teal basic left pointing label m-padded-mini">9-03</div>
-                    </span>
-                    <div class="ui orange basic label m-padded-mini">原创</div>
-                </a>
-            </div>
+            <th:block th:each="item:${archiveMap}">
+                <h3 class="ui center aligned header" th:text="${item.key}"></h3>
+                <div class="ui fluid vertical menu" th:each="blog:${item.value}">
+                    <a href="" th:href="@{/blog/{id}(id=${blog.id})}" target="_blank" class="item">
+                        <span>
+                            <i class="mini teal cricle icon"></i><span th:text="${blog.title}"></span>
+                            <div class="ui teal basic left pointing label m-padded-mini" th:text="${#dates.format(blog.updateTime,'MM-dd')}">9-03</div>
+                        </span>
+                        <div class="ui orange basic label m-padded-mini" th:text="${blog.flag}">原创</div>
+                    </a>
+                </div>
+            </th:block>
         </div>
     </div>
 

@@ -60,6 +60,7 @@ public class TypeController {
 
     @GetMapping("/types/{id}/delete")
     public String delete(@PathVariable Long id,RedirectAttributes attributes){
+        //先要解决外键关系，然后再做删除
         typeService.deleteType(id);
         attributes.addFlashAttribute("message","恭喜，操作成功！");
         return "redirect:/admin/types";
